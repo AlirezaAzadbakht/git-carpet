@@ -6,7 +6,7 @@
 
 Weave a Persian carpet from your GitHub activity. The carpet is an animated SVG for your profile README. It rests, the loom takes it back, and then it is woven again row by row from the bottom, the way a real rug grows on a loom.
 
-Every carpet keeps the symmetry of a Persian city rug (Kashan, Tabriz, Isfahan, Nain, Heriz). Only one quarter of the design is computed, and the rest is its mirror image left↔right and top↔bottom. A test checks this on every build.
+Every carpet keeps the symmetry of a [Persian](https://en.wikipedia.org/wiki/Persian_carpet) city rug ([Kashan](https://en.wikipedia.org/wiki/Persian_carpet#Town_carpets), [Tabriz](https://en.wikipedia.org/wiki/Tabriz_rug), [Isfahan](https://en.wikipedia.org/wiki/Isfahan_rug), [Nain](https://en.wikipedia.org/wiki/Nain_rug), [Heriz](https://en.wikipedia.org/wiki/Heriz_rug)). Only one quarter of the design is computed, and the rest is its mirror image left↔right and top↔bottom. A test checks this on every build.
 
 ## Gallery
 
@@ -18,11 +18,11 @@ Your top language and your login pick one of five palettes, each modeled on a we
 
 <table>
   <tr>
-    <td align="center"><img src="examples/gallery/kashan.svg" width="150" alt="Kashan carpet: madder-red field, indigo border" /><br /><sub><b>Kashan</b><br />madder field, indigo border</sub></td>
-    <td align="center"><img src="examples/gallery/tabriz.svg" width="150" alt="Tabriz carpet: ivory field, madder-red border" /><br /><sub><b>Tabriz</b><br />ivory field, madder border</sub></td>
-    <td align="center"><img src="examples/gallery/isfahan.svg" width="150" alt="Isfahan carpet: indigo field, madder-red border" /><br /><sub><b>Isfahan</b><br />indigo field, madder border</sub></td>
-    <td align="center"><img src="examples/gallery/nain.svg" width="150" alt="Nain carpet: ivory field, indigo border" /><br /><sub><b>Nain</b><br />ivory field, indigo border</sub></td>
-    <td align="center"><img src="examples/gallery/heriz.svg" width="150" alt="Heriz carpet: pomegranate field, indigo border" /><br /><sub><b>Heriz</b><br />pomegranate field, indigo border</sub></td>
+    <td align="center"><img src="examples/gallery/kashan.svg" width="150" alt="Kashan carpet: madder-red field, indigo border" /><br /><sub><b><a href="https://en.wikipedia.org/wiki/Persian_carpet#Town_carpets">Kashan</a></b><br />madder field, indigo border</sub></td>
+    <td align="center"><img src="examples/gallery/tabriz.svg" width="150" alt="Tabriz carpet: ivory field, madder-red border" /><br /><sub><b><a href="https://en.wikipedia.org/wiki/Tabriz_rug">Tabriz</a></b><br />ivory field, madder border</sub></td>
+    <td align="center"><img src="examples/gallery/isfahan.svg" width="150" alt="Isfahan carpet: indigo field, madder-red border" /><br /><sub><b><a href="https://en.wikipedia.org/wiki/Isfahan_rug">Isfahan</a></b><br />indigo field, madder border</sub></td>
+    <td align="center"><img src="examples/gallery/nain.svg" width="150" alt="Nain carpet: ivory field, indigo border" /><br /><sub><b><a href="https://en.wikipedia.org/wiki/Nain_rug">Nain</a></b><br />ivory field, indigo border</sub></td>
+    <td align="center"><img src="examples/gallery/heriz.svg" width="150" alt="Heriz carpet: pomegranate field, indigo border" /><br /><sub><b><a href="https://en.wikipedia.org/wiki/Heriz_rug">Heriz</a></b><br />pomegranate field, indigo border</sub></td>
   </tr>
 </table>
 
@@ -80,13 +80,13 @@ Activity changes the carpet a lot. A quiet year weaves a calm, open rug, and a b
 
 | Part of the rug | Quiet profile | Busy profile | Comes from |
 |---|---|---|---|
-| Field (matn) | Open ground with scattered flowers | Leaves, then the herati lattice, then florets on every crossing | Contributions in the last year |
-| Central medallion (toranj) | Small, plain star | Large, with a petal ring, an inner lobed frame and pendants | Contributions in the last year |
+| Field ([matn](https://en.wikipedia.org/wiki/Persian_carpet#Field_design,_medallions_and_borders)) | Open ground with scattered flowers | Leaves, then the herati lattice, then florets on every crossing | Contributions in the last year |
+| Central medallion ([toranj](https://en.wikipedia.org/wiki/Persian_carpet#Field_design,_medallions_and_borders)) | Small, plain star | Large, with a petal ring, an inner lobed frame and pendants | Contributions in the last year |
 | Gold thread | None | Gold vine from a 30-day streak; gold rosettes and medallion band from 90 days | Longest daily streak |
-| Main border (hashiyeh) | A few rosettes | More rosettes, closer together | Longest daily streak |
+| Main border ([hashiyeh](https://en.wikipedia.org/wiki/Persian_carpet#Field_design,_medallions_and_borders)) | A few rosettes | More rosettes, closer together | Longest daily streak |
 | Outer frame | One guard and one stripe | Up to three stripes, plus a second interlocking-tooth guard after 8 years | Account age |
 | Color harmony | | | Your top language and your login |
-| Abrash: soft bands of shade | | | Each week of the last year, woven bottom to top. Busy weeks are a richer dye, quiet weeks a lighter one, the way real rugs show dye batches |
+| [Abrash](https://en.wikipedia.org/wiki/Abrash): soft bands of shade | | | Each week of the last year, woven bottom to top. Busy weeks are a richer dye, quiet weeks a lighter one, the way real rugs show dye batches |
 
 Every color is a natural dye: madder, indigo, ivory, saffron, walnut, pistachio, pomegranate. The same account on the same day always gives the same carpet.
 
@@ -99,6 +99,12 @@ node test/check.js               # symmetry, determinism, size budget
 ```
 
 There are no dependencies and no build step. Node 20 or newer is enough.
+
+## References
+
+- [Persian carpet](https://en.wikipedia.org/wiki/Persian_carpet), Wikipedia: the design vocabulary (field, medallion, corner pieces, borders) and the [town carpets](https://en.wikipedia.org/wiki/Persian_carpet#Town_carpets) of Kashan, Isfahan and Nain.
+- [Tabriz rug](https://en.wikipedia.org/wiki/Tabriz_rug), [Isfahan rug](https://en.wikipedia.org/wiki/Isfahan_rug), [Nain rug](https://en.wikipedia.org/wiki/Nain_rug), [Heriz rug](https://en.wikipedia.org/wiki/Heriz_rug), Wikipedia: the five harmonies.
+- [Abrash](https://en.wikipedia.org/wiki/Abrash), Wikipedia: the dye-batch shading the weekly bands imitate.
 
 ## License
 
