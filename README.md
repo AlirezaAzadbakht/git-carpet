@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: AlirezaAzadbakht/git-carpet@v0
+      - uses: AlirezaAzadbakht/git-carpet@v1
 ```
 
 Run it once from the Actions tab, then show the carpet in your `README.md`:
