@@ -22,19 +22,22 @@ export function weave(d) {
 
 // Bands from the edge inward: outer guard, main border, inner guard, stripes, field.
 function layout(d) {
-  const { W, H, harmony: c } = d;
-  const G1 = 9, BW = d.border.width, G2 = 8, S = 2 * d.stripes;
-  const F = G1 + BW + G2 + S; // field starts this far from the edge
+  const { W, H } = d;
+  const c = { ...d.harmony };
+  if (d.gold.vine) c.vine = 'gold';
+  if (d.gold.rich) Object.assign(c, { rosetteIn: 'gold', medalBand: 'gold' });
+  const G0 = d.elder ? 6 : 0, G1 = 9, BW = d.border.width, G2 = 8, S = 2 * d.stripes;
+  const F = G0 + G1 + BW + G2 + S; // field starts this far from the edge
   const fw = W / 2 - F, fh = H / 2 - F; // field half extents
 
   const zig = [period(W / 2, 9), period(H / 2, 9)];
-  const dots = [period(W / 2 - (G1 + BW + G2 / 2), 6), period(H / 2 - (G1 + BW + G2 / 2), 6)];
-  const corner = G1 + BW / 2; // corner rosette center, measured from both edges
+  const dots = [period(W / 2 - (G0 + G1 + BW + G2 / 2), 6), period(H / 2 - (G0 + G1 + BW + G2 / 2), 6)];
+  const corner = G0 + G1 + BW / 2; // corner rosette center, measured from both edges
   const hp = [period(W / 2 - corner, d.border.halfPeriod), period(H / 2 - corner, d.border.halfPeriod)];
 
-  const med = { rx: fw * d.medallion.rx, ry: fh * d.medallion.ry, lobes: d.medallion.lobes };
+  const med = { ...d.medallion, rx: fw * d.medallion.rx, ry: fh * d.medallion.ry };
   const lach = { rx: fw * 0.62, ry: fw * 0.68 };
-  const sx = period(fw, 13), sy = period(fh, 16); // herati lattice spacing
+  const lat = { ...d.field, sx: period(fw, d.field.sx), sy: period(fh, d.field.sy) }; // herati lattice
 
   return (u, v) => {
     const dx = W / 2 - u, dy = H / 2 - v;
@@ -43,12 +46,13 @@ function layout(d) {
     const side = dy <= dx ? 0 : 1;
     const along = side ? dy : dx, cross = side ? dx : dy;
 
-    if (edge < G1) return guardZigzag(cross, along, G1, zig[side], c);
-    if (edge < G1 + BW) return mainBorder(cross - G1, along - corner, BW, hp[side], c);
-    if (edge < G1 + BW + G2) return guardDots(cross - G1 - BW, along, G2, dots[side], c);
-    if (edge < F) return c.stripes[Math.floor((edge - G1 - BW - G2) / 2) % c.stripes.length];
+    if (edge < G0) return guardTeeth(cross, along, G0, zig[side], c);
+    if (edge < G0 + G1) return guardZigzag(cross - G0, along, G1, zig[side], c);
+    if (edge < G0 + G1 + BW) return mainBorder(cross - G0 - G1, along - corner, BW, hp[side], c);
+    if (edge < G0 + G1 + BW + G2) return guardDots(cross - G0 - G1 - BW, along, G2, dots[side], c);
+    if (edge < F) return c.stripes[Math.floor((edge - G0 - G1 - BW - G2) / 2) % c.stripes.length];
     if (edge < F + 1.5) return 'walnut';
-    return field(u, v, fw, fh, med, lach, sx, sy, c);
+    return field(u, v, fw, fh, med, lach, lat, c);
   };
 }
 
@@ -66,6 +70,13 @@ function guardZigzag(cross, along, w, p, c) {
   if (dist < 1) return c.guardOutMotif;
   // Reciprocal teeth: the ground on either side of the zigzag alternates.
   return c.guardOut;
+}
+
+// Reciprocal teeth: two colors interlock along a sawtooth, the elder's outermost guard.
+function guardTeeth(cross, along, w, p, c) {
+  if (cross < 1.5) return 'walnut';
+  const t = Math.abs((((along / p) % 1) + 1) % 1 - 0.5) * 2;
+  return cross - 1.5 < t * (w - 1.5) ? c.guardInMotif : c.guardIn;
 }
 
 function guardDots(cross, along, w, p, c) {
@@ -144,12 +155,12 @@ function rosette(x, y, R, petal, inner, heart) {
   return petal;
 }
 
-function field(u, v, fw, fh, med, lach, sx, sy, c) {
-  return medallion(u, v, med, c) || lachak(fw - u, fh - v, lach, c) || herati(u, v, sx, sy, c);
+function field(u, v, fw, fh, med, lach, lat, c) {
+  return medallion(u, v, med, c) || lachak(fw - u, fh - v, lach, c) || herati(u, v, lat, c);
 }
 
 // Central medallion (toranj) with pendants (sar-toranj) above and below.
-function medallion(u, v, { rx, ry, lobes }, c) {
+function medallion(u, v, { rx, ry, lobes, pendants, petals, nested }, c) {
   const ex = u / rx, ey = v / ry;
   const r = Math.hypot(ex, ey), th = Math.atan2(ey, ex); // th: 0 at the side, PI/2 at the tip
   // Scalloped edge, drawn out to points at top and bottom.
@@ -171,17 +182,19 @@ function medallion(u, v, { rx, ry, lobes }, c) {
     }
     // An inner lobed outline echoes the edge, with gold dots strung between.
     const inner = (R * 0.84 - r) / g;
-    if (inner < 0) return Math.cos(lobes * 2 * th) > 0.8 && inner < -1.2 && depth > 7 ? c.medalDot : c.medal;
-    if (inner < 1.1) return 'walnut';
+    if (nested && inner < 0) return Math.cos(lobes * 2 * th) > 0.8 && inner < -1.2 && depth > 7 ? c.medalDot : c.medal;
+    if (nested && inner < 1.1) return 'walnut';
     // Ring of petals around the star, gold dots between them.
     const ring = Math.cos(16 * th);
     const rr = r - 0.72;
+    if (!petals) return c.medal;
     if (Math.abs(rr) < 0.1 && ring > 0.3 + 5 * Math.abs(rr)) return Math.abs(rr) < 0.03 && ring > 0.8 ? c.medalDot : c.petal;
     if (Math.abs(rr) < 0.04 && ring < -0.85) return c.medalDot;
     return c.medal;
   }
   // Pendant: a small cartouche on the long axis, joined by a stem.
   const tip = 1.24;
+  if (!pendants) return q < 1.12 ? c.field : null;
   const pr = Math.hypot(u / (rx * 0.2), (v - ry * (tip + 0.15)) / (ry * 0.12));
   if (pr < 1) {
     if ((1 - pr) * ry * 0.12 < 1.4) return 'walnut';
@@ -224,7 +237,7 @@ function lachak(cu, cv, { rx, ry }, c) {
 }
 
 // Herati: a diamond lattice with a flower on every node and four leaves around it.
-function herati(u, v, sx, sy, c) {
+function herati(u, v, { sx, sy, leaves, lattice, florets }, c) {
   // Nearest node of the diamond lattice {(i*sx, j*sy) : i+j even}.
   let i = Math.round(u / sx), j = Math.round(v / sy);
   if ((i + j) % 2) {
@@ -236,9 +249,16 @@ function herati(u, v, sx, sy, c) {
   }
   const x = u - i * sx, y = v - j * sy; // knots from the node
   const nx = x / sx, ny = y / sy;
-  if (Math.abs(nx) + Math.abs(ny) > 1 - 0.8 / Math.min(sx, sy)) return c.fieldLine; // lattice vines
+  const diamond = Math.abs(nx) + Math.abs(ny);
+  if (lattice && diamond > 1 - 0.8 / Math.min(sx, sy)) return c.fieldLine; // lattice vines
+  if (florets) { // a small floret where four diamonds meet
+    const vx = Math.abs(x) - (Math.abs(nx) > Math.abs(ny) ? sx : 0), vy = Math.abs(y) - (Math.abs(nx) > Math.abs(ny) ? 0 : sy);
+    const vr = Math.hypot(vx, vy);
+    if (vr < 2.2) return vr < 1 ? 'gold' : c.fieldFlower;
+  }
   const ros = rosette(x, y, 4.4, c.fieldFlower, c.fieldDot, c.fieldDot);
   if (ros) return ros;
+  if (!leaves) return c.field;
   // Four lancet leaves, one per diamond edge, lying along the edge.
   const gx = Math.sign(nx) || 1, gy = Math.sign(ny) || 1;
   const lx = x - gx * 0.5 * sx * 0.92, ly = y - gy * 0.5 * sy * 0.92;

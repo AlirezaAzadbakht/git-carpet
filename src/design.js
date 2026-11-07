@@ -47,7 +47,9 @@ export function design(profile, now = new Date()) {
   const harmony = HARMONIES[hash(`${profile.languages[0] || ''}/${profile.login}`) % HARMONIES.length];
 
   const years = (now - new Date(profile.createdAt)) / (365.25 * 864e5);
-  const activity = clamp01(Math.log10(profile.total + 1) / 4); // 0 quiet … 1 at 10k/yr
+  // Richness: 0 for ten contributions a year or fewer, 1 from about five thousand.
+  const rich = clamp01((Math.log10(profile.total + 1) - 1) / 2.7);
+  const streak = profile.longestStreak;
 
   // Abrash: one tone per week, smoothed so bands read as dye batches, not stripes.
   const weeks = profile.weeks;
@@ -63,9 +65,18 @@ export function design(profile, now = new Date()) {
 
   return {
     W, H, harmony,
+    elder: years >= 8, // a second, outermost guard border
     stripes: 1 + Math.min(2, Math.floor(years / 4)), // older account, more stripes
-    border: { width: 24, halfPeriod: 30 - 6 * clamp01(profile.longestStreak / 60) },
-    medallion: { rx: 0.62, ry: 0.36 + 0.08 * activity, lobes: profile.total < 100 ? 12 : profile.total < 1000 ? 16 : 20 },
+    border: { width: 24, halfPeriod: 30 - 6 * clamp01(streak / 60) },
+    // Gold thread: a month-long streak gilds the border vine; three months gild the rosettes and medallion band.
+    gold: { vine: streak >= 30, rich: streak >= 90 },
+    medallion: {
+      rx: 0.5 + 0.14 * rich, ry: 0.3 + 0.16 * rich,
+      lobes: profile.total < 100 ? 12 : profile.total < 1000 ? 16 : 20,
+      pendants: rich >= 0.15, petals: rich >= 0.3, nested: rich >= 0.6,
+    },
+    // The field fills in as activity grows: flowers, then leaves, then the lattice, then florets on every crossing.
+    field: { sx: 16 - 4 * rich, sy: 19 - 4 * rich, leaves: rich >= 0.25, lattice: rich >= 0.55, florets: rich >= 0.8 },
     rowTone,
   };
 }
