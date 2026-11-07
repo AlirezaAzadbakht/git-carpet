@@ -24,7 +24,7 @@ const HARMONIES = [
     border: 'madder', vine: 'gold', rosette: 'ivory', rosetteIn: 'indigo', bud: 'pistachio',
     guardOut: 'ivory', guardOutMotif: 'madder', guardIn: 'gold', guardInMotif: 'indigo', stripes: ['madder', 'ivory', 'turquoise'] },
   { name: 'Nain', field: 'ivory', fieldLine: 'sky', fieldFlower: 'indigo', fieldLeaf: 'indigoLight', fieldDot: 'turquoise',
-    medal: 'indigo', medalBand: 'ivory', star: 'ivory', petal: 'turquoise', medalDot: 'gold',
+    medal: 'indigo', medalBand: 'sky', star: 'ivory', petal: 'turquoise', medalDot: 'gold',
     border: 'indigo', vine: 'ivory', rosette: 'ivory', rosetteIn: 'turquoise', bud: 'sky',
     guardOut: 'ivory', guardOutMotif: 'indigo', guardIn: 'sky', guardInMotif: 'ivory', stripes: ['indigoLight', 'gold', 'turquoise'] },
   { name: 'Heriz', field: 'pomegranate', fieldLine: 'madderDark', fieldFlower: 'ivory', fieldLeaf: 'indigo', fieldDot: 'saffron',

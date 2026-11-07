@@ -84,6 +84,7 @@ function mainBorder(cross, a, w, h, c) {
   const da = a - k * h, dc = cross - mid;
   const ros = rosette(da, dc, Math.min(h * 0.3, mid - 2.4), c.rosette, c.rosetteIn, 'gold');
   if (ros) return ros;
+  if (a < 0) return c.border; // the corner square holds only its rosette
 
   const amp = mid - 9;
   const wave = (t) => amp * Math.sin((Math.PI * t) / h);
@@ -93,10 +94,10 @@ function mainBorder(cross, a, w, h, c) {
   const km = Math.floor(a / h) + 0.5;
   const sign = Math.sign(Math.sin(Math.PI * km));
   const pa = a - km * h, pq = sign * (cross - mid) - amp + 1.2;
-  const pal = palmette(pa, pq, Math.min(h * 0.38, mid - amp - 0.4), c);
+  const pal = palmette(pa, pq, Math.min(h * 0.45, mid - amp - 0.3), c);
   if (pal) return pal;
 
-  if (Math.abs(cross - mid - s) < 0.85) return c.vine;
+  if (Math.abs(cross - mid - s) < 1) return c.vine;
 
   // A leaf on the inside of each bend, lying along the vine.
   for (const off of [-0.27, 0.27]) {
@@ -112,18 +113,21 @@ function mainBorder(cross, a, w, h, c) {
   return c.border;
 }
 
-// A fan-shaped palmette rooted at (0,0), opening toward +q.
+// A three-lobed palmette rooted at (0,0) on the vine, opening toward +q.
+// Built from circles, so the outline is an even 1 knot all the way round.
 function palmette(p, q, R, c) {
-  if (q < -0.6) return null;
-  const r = Math.hypot(p, q);
-  const phi = Math.atan2(p, q); // 0 straight out
-  if (Math.abs(phi) > 1.35 || r > R) return null;
-  const edge = R * (0.8 + 0.2 * Math.abs(Math.cos((phi * 5) / 1.25 * (Math.PI / 2))));
-  if (r > edge) return null;
-  if (r > edge - 1.1) return 'walnut';
-  if (r < R * 0.28) return 'gold';
-  if (r < R * 0.55) return Math.abs(phi) < 0.18 ? 'walnut' : c.rosetteIn;
-  return c.bud;
+  const circle = (x, y, r) => Math.hypot(p - x, q - y) - r;
+  const lobes = Math.min(
+    circle(0, R * 0.55, R * 0.45),
+    circle(-R * 0.48, R * 0.3, R * 0.3),
+    circle(R * 0.48, R * 0.3, R * 0.3),
+    circle(0, R * 0.12, R * 0.34), // the cup the lobes rise from
+  );
+  if (lobes > 0) return null;
+  if (lobes > -1.1) return 'walnut';
+  const core = circle(0, R * 0.5, R * 0.2);
+  if (core < 0) return core > -0.9 ? 'walnut' : 'gold';
+  return circle(0, R * 0.45, R * 0.36) < 0 ? c.rosetteIn : c.bud;
 }
 
 // An eight-petal rosette: walnut outline, outer petals, offset inner petals, gold heart.
@@ -165,6 +169,10 @@ function medallion(u, v, { rx, ry, lobes }, c) {
       const m = Math.min(rx, ry);
       return rosette(ex * m, ey * m, 0.3 * m, c.petal, 'ivory', 'gold') || c.star;
     }
+    // An inner lobed outline echoes the edge, with gold dots strung between.
+    const inner = (R * 0.84 - r) / g;
+    if (inner < 0) return Math.cos(lobes * 2 * th) > 0.8 && inner < -1.2 && depth > 7 ? c.medalDot : c.medal;
+    if (inner < 1.1) return 'walnut';
     // Ring of petals around the star, gold dots between them.
     const ring = Math.cos(16 * th);
     const rr = r - 0.72;
@@ -209,10 +217,9 @@ function lachak(cu, cv, { rx, ry }, c) {
     if ((star - sr) * 0.5 / g < 1.4) return 'walnut';
     return rosette(cu, cv, Math.min(rx, ry) * 0.24, c.petal, 'ivory', 'gold') || c.star;
   }
-  const arc = 0.74 + 0.03 * Math.cos(16 * th);
-  const ad = Math.abs(r - arc) / g;
-  if (ad < 0.7) return 'walnut';
-  if (ad < 1.8 && r < arc) return c.petal;
+  const ring = Math.cos(16 * th), rr = r - 0.68;
+  if (Math.abs(rr) < 0.08 && ring > 0.3 + 6 * Math.abs(rr)) return c.petal;
+  if (Math.abs(rr) < 0.03 && ring < -0.85) return c.medalDot;
   return c.medal;
 }
 
