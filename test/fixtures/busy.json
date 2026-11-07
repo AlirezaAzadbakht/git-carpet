@@ -1,7 +1,7 @@
 {
  "login": "AlirezaAzadbakht",
  "createdAt": "2017-07-09T17:34:04Z",
- "total": 2582,
+ "total": 2583,
  "longestStreak": 185,
  "weeks": [
   85,
@@ -56,13 +56,13 @@
   94,
   86,
   96,
-  72
+  73
  ],
  "languages": [
+  "Kotlin",
   "Jupyter Notebook",
-  "JavaScript",
+  "Java",
   "Python",
-  "TypeScript",
-  "Kotlin"
+  "JavaScript"
  ]
 }

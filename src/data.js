@@ -11,7 +11,7 @@ const QUERY = `query($login: String!) {
         weeks { contributionDays { contributionCount } }
       }
     }
-    repositories(first: 100, ownerAffiliations: OWNER, isFork: false,
+    repositories(first: 100, ownerAffiliations: OWNER, isFork: false, privacy: PUBLIC,
                  orderBy: {field: PUSHED_AT, direction: DESC}) {
       nodes { languages(first: 5, orderBy: {field: SIZE, direction: DESC}) {
         edges { size node { name } } } }
