@@ -8,6 +8,38 @@ Weave a Persian carpet from your GitHub activity. The carpet is an animated SVG 
 
 Every carpet keeps the symmetry of a Persian city rug (Kashan, Tabriz, Isfahan, Nain, Heriz). Only one quarter of the design is computed, and the rest is its mirror image left↔right and top↔bottom. A test checks this on every build.
 
+## Gallery
+
+The carpets below are woven from made-up profiles.
+
+### Five city harmonies
+
+Your top language and your login pick one of five palettes, each modeled on a weaving city.
+
+<table>
+  <tr>
+    <td align="center"><img src="examples/gallery/kashan.svg" width="150" alt="Kashan carpet: madder-red field, indigo border" /><br /><sub><b>Kashan</b><br />madder field, indigo border</sub></td>
+    <td align="center"><img src="examples/gallery/tabriz.svg" width="150" alt="Tabriz carpet: ivory field, madder-red border" /><br /><sub><b>Tabriz</b><br />ivory field, madder border</sub></td>
+    <td align="center"><img src="examples/gallery/isfahan.svg" width="150" alt="Isfahan carpet: indigo field, madder-red border" /><br /><sub><b>Isfahan</b><br />indigo field, madder border</sub></td>
+    <td align="center"><img src="examples/gallery/nain.svg" width="150" alt="Nain carpet: ivory field, indigo border" /><br /><sub><b>Nain</b><br />ivory field, indigo border</sub></td>
+    <td align="center"><img src="examples/gallery/heriz.svg" width="150" alt="Heriz carpet: pomegranate field, indigo border" /><br /><sub><b>Heriz</b><br />pomegranate field, indigo border</sub></td>
+  </tr>
+</table>
+
+### Quiet to prolific
+
+These three share a login, so they use the same palette, and only the activity differs.
+
+<table>
+  <tr>
+    <td align="center"><img src="examples/gallery/quiet.svg" width="230" alt="Quiet profile: open field with scattered flowers and a small medallion" /><br /><sub><b>Quiet</b><br />40 contributions · 3-day streak · 1-year-old account</sub></td>
+    <td align="center"><img src="examples/gallery/steady.svg" width="230" alt="Steady profile: leaves and lattice fill the field, gold vine in the border" /><br /><sub><b>Steady</b><br />600 contributions · 35-day streak · 7 years</sub></td>
+    <td align="center"><img src="examples/gallery/prolific.svg" width="230" alt="Prolific profile: dense lattice, large nested medallion, gold thread, double outer guard" /><br /><sub><b>Prolific</b><br />4,200 contributions · 120-day streak · 13 years</sub></td>
+  </tr>
+</table>
+
+To re-weave the gallery after a design change, run `node examples/gallery.js`.
+
 ## Use it
 
 Add this workflow to your profile repository (the one named after your username) as `.github/workflows/carpet.yml`:
