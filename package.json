@@ -1,0 +1,6 @@
+{
+  "name": "git-carpet",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node test/check.js" }
+}

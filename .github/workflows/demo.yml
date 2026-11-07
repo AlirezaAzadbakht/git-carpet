@@ -1,0 +1,25 @@
+# Weaves the demo carpet shown in this repository's README, using the Action from this checkout.
+name: Demo
+
+on:
+  schedule:
+    - cron: "40 1 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [src/**, action.yml]
+
+permissions:
+  contents: write
+
+concurrency: demo
+
+jobs:
+  weave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: node test/check.js
+      - uses: ./
+        with:
+          user: AlirezaAzadbakht

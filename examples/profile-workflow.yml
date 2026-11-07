@@ -1,0 +1,22 @@
+# Copy into your profile repository (<you>/<you>) as .github/workflows/carpet.yml,
+# then embed <img src="carpet/carpet.svg" width="384" alt="My carpet"> in its README.md.
+name: Carpet
+
+on:
+  schedule:
+    - cron: "40 1 * * *"
+  workflow_dispatch:
+  push:
+    paths: [.github/workflows/carpet.yml]
+
+permissions:
+  contents: write
+
+concurrency: carpet
+
+jobs:
+  weave:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: AlirezaAzadbakht/git-carpet@v0
