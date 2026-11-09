@@ -4,7 +4,7 @@
 
 # git-carpet
 
-Weave a Persian carpet from your GitHub activity. The carpet is an animated SVG for your profile README. It rests, the loom takes it back, and then it is woven again row by row from the bottom, the way a real rug grows on a loom.
+Weave a Persian carpet from your GitHub activity. The carpet is an SVG for your profile README, with a soft light that sweeps across the pile every few seconds, the way silk catches the light.
 
 Every carpet keeps the symmetry of a [Persian](https://en.wikipedia.org/wiki/Persian_carpet) city rug ([Kashan](https://en.wikipedia.org/wiki/Persian_carpet#Town_carpets), [Tabriz](https://en.wikipedia.org/wiki/Tabriz_rug), [Isfahan](https://en.wikipedia.org/wiki/Isfahan_rug), [Nain](https://en.wikipedia.org/wiki/Nain_rug), [Heriz](https://en.wikipedia.org/wiki/Heriz_rug)). Only one quarter of the design is computed, and the rest is its mirror image left↔right and top↔bottom. A test checks this on every build.
 
